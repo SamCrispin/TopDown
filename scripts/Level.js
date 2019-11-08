@@ -5,19 +5,20 @@ class Level {
         this.width = this.map.length;
         this.height = this.map[0].length;
         this.size = this.width * this.height;
+    }
+
+    setup() {
+        this.initialise();
         this.renderLevel();
     }
 
-    genMap() {
-        let arr = [];
-        for (let i = 0; i < this.size; i++) {
-            arr[i] = {};
+    initialise() {
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                let mapVal = this.map[i][j];
+                this.map[i][j] = new Cell(cells[mapVal]);
+            }
         }
-        return arr;
-    }
-
-    pos(x, y) {
-        return this.map[y * this.width + x];
     }
 
     renderLevel() {
@@ -27,10 +28,10 @@ class Level {
                 div = document.createElement("div");
                 div.style.width = this.cellSize + "px";
                 div.style.height = this.cellSize + "px";
-                div.style.left = (i % this.width) * this.cellSize + "px";
-                div.style.top = ((i / this.width) >> 0) * this.cellSize + "px";
+                div.style.left = i * this.cellSize + "px";
+                div.style.top = j * this.cellSize + "px";
+                div.style.backgroundImage = this.map[i][j].bgImage;
                 div.className = "mapCell";
-                div.style.backgroundImage = cells[this.map[i][j]];
 
                 document.getElementById("map").appendChild(div);
             }

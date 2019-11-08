@@ -1,4 +1,4 @@
 const cells = [
-    {bgImage: "example1.png", traversable: true}, //floor
-    {bgImage: "example2.png", traversable: false}, //floor
+    {bgImage: "url('assets/images/example2.png')", traversable: true}, //floor
+    {bgImage: "url('assets/images/example1.png')", traversable: false}, //wall
 ];

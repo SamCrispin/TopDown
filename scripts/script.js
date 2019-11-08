@@ -1,10 +1,10 @@
-
+const player = new Player();
+const level = new Level();
+const loop = new GameLoop();
 //loop.start();
 
 let setup = () => {
-    const player = new Player();
-    const level = new Level();
-    const loop = new GameLoop();
+    level.setup();
 };
 
 window.onload = setup;
