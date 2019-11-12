@@ -8,7 +8,7 @@ class GameLoop {
     }
 
     loopFunc() {
-        //player actions
+        player.update();
         //move entities
         //render
     }
