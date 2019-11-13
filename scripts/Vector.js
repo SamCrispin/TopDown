@@ -24,6 +24,23 @@ class Vector {
         this.y += this.vel.y;
     }
 
+    collisionDetection(width, height) {
+        if (!Level.getCellAtPos(this.x + width, this.y).traversable) {
+            this.x -= (this.x + width) % level.cellSize;
+            this.vel.x = -this.vel.x;
+        } else if (!Level.getCellAtPos(this.x - width, this.y).traversable) {
+            this.x += (this.x - width) % level.cellSize;
+            this.vel.x = -this.vel.x;
+        }
+        if (!Level.getCellAtPos(this.x, this.y + height).traversable) {
+            this.y -= (this.y + width) % level.cellSize;
+            this.vel.y = -this.vel.y;
+        } else if (!Level.getCellAtPos(this.x, this.y - height).traversable) {
+            this.y += (this.y - width) % level.cellSize;
+            this.vel.y = -this.vel.y;
+        }
+    }
+
     normaliseVel() {
         if (this.mag > this.maxVel) {
             this.vel = Vector.mult(this.vel, this.maxVel/this.mag);

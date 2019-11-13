@@ -2,6 +2,8 @@ class Player {
     constructor(keys) {
         this.health = 100;
         this.pos = new Vector({x: 512, y: 512});
+        this.width = 30;
+        this.height = 30;
         this.keys = keys
     }
 
@@ -15,9 +17,10 @@ class Player {
         this.div.style.position = "absolute";
         this.div.style.left = this.pos.x + "px";
         this.div.style.bottom = this.pos.y + "px";
-        this.div.style.width = "64px";
-        this.div.style.height = "64px";
-        this.div.style.backgroundImage = "url('assets/images/player.png')";
+        this.div.style.width = this.width + "px";
+        this.div.style.height = this.height + "px";
+        this.div.style.borderRadius = "50%";
+        this.div.style.backgroundColor = "black";
 
         document.getElementById("map").appendChild(this.div);
     }
@@ -33,6 +36,7 @@ class Player {
     update() {
         this.move();
         this.pos.update();
+        this.pos.collisionDetection(this.width, this.height);
         //console.log("x: " + this.pos.x + ", y: " + this.pos.y);
         //console.log("x: " + this.pos.acc.x + ", y: " + this.pos.acc.y);
         this.div.style.left = this.pos.x + "px";

@@ -37,4 +37,8 @@ class Level {
             }
         }
     }
+
+    static getCellAtPos(x, y) {
+        return cells[level.map[Math.floor(x / level.cellSize)][Math.floor(y / level.cellSize)]]
+    }
 }
