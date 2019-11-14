@@ -9,7 +9,6 @@ class Level {
 
     setup() {
         this.initialise();
-        this.renderLevel();
     }
 
     initialise() {
@@ -21,19 +20,12 @@ class Level {
         }
     }
 
-    renderLevel() {
-        let div;
+    render() {
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                div = document.createElement("div");
-                div.style.width = this.cellSize + "px";
-                div.style.height = this.cellSize + "px";
-                div.style.left = i * this.cellSize + "px";
-                div.style.top = j * this.cellSize + "px";
-                div.style.backgroundImage = this.map[i][j].bgImage;
-                div.className = "mapCell";
-
-                document.getElementById("map").appendChild(div);
+                fill(level.map[i][j].col);
+                noStroke();
+                rect(i*this.cellSize, j * this.cellSize, this.cellSize, this.cellSize)
             }
         }
     }
