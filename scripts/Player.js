@@ -1,45 +1,58 @@
 class Player {
     constructor(keys) {
         this.health = 100;
-        this.pos = new Vector({x: 512, y: 512});
+        this.pos = createVector(512, 512);
+        this.vel = createVector(0, 0);
+        this.acc = createVector(0, 0);
         this.width = 30;
         this.height = 30;
-        this.keys = keys
-    }
-
-    setup() {
-        this.render();
-        this.controls = new Controls(this.keys);
+        this.keys = keys;
+        this.keysPressed = new Set();
+        this.maxVel = 10;
+        this.maxAcc = 2;
     }
 
     render() {
-        this.div = document.createElement("div");
-        this.div.style.position = "absolute";
-        this.div.style.left = this.pos.x + "px";
-        this.div.style.bottom = this.pos.y + "px";
-        this.div.style.width = this.width + "px";
-        this.div.style.height = this.height + "px";
-        this.div.style.borderRadius = "50%";
-        this.div.style.backgroundColor = "black";
-
-        document.getElementById("map").appendChild(this.div);
+        fill("black");
+        ellipse(this.pos.x, this.pos.y, this.width, this.height)
     }
 
     move() {
-        if (this.controls.keysPressed.has(this.keys.left)) this.pos.acc.x = -3;
-        if (this.controls.keysPressed.has(this.keys.right)) this.pos.acc.x = 3;
-        if (this.controls.keysPressed.has(this.keys.up)) this.pos.acc.y = 3;
-        if (this.controls.keysPressed.has(this.keys.down)) this.pos.acc.y = -3;
-        if (this.controls.keysPressed.size === 0) this.pos.acc = Vector.mult(this.pos.acc, 0);
+        this.acc.set(0);
+        for (let pressed of this.keysPressed) {
+            switch (pressed) {
+                case this.keys.left:
+                    this.acc.x -= this.maxAcc;
+                    break;
+                case this.keys.right:
+                    this.acc.x += this.maxAcc;
+                    break;
+                case this.keys.up:
+                    this.acc.y -= this.maxAcc;
+                    break;
+                case this.keys.down:
+                    this.acc.y += this.maxAcc;
+                    break;
+            }
+        }
+        if (this.keysPressed.size === 0) {
+            this.acc = p5.Vector.mult(this.vel, -1).limit(this.maxAcc);
+        }
+        this.vel.add(this.acc);
+        this.vel.limit(this.maxVel);
+        this.pos.add(this.vel);
+    }
+
+    keyPress() {
+        if (Object.values(this.keys).includes(key)) this.keysPressed.add(key);
+    }
+
+    keyRelease() {
+        this.keysPressed.delete(key);
     }
 
     update() {
         this.move();
-        this.pos.update();
-        this.pos.collisionDetection(this.width, this.height);
-        //console.log("x: " + this.pos.x + ", y: " + this.pos.y);
-        //console.log("x: " + this.pos.acc.x + ", y: " + this.pos.acc.y);
-        this.div.style.left = this.pos.x + "px";
-        this.div.style.bottom = this.pos.y + "px";
+        this.render();
     }
 }
