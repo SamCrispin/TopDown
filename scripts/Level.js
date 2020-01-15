@@ -5,7 +5,6 @@ class Level {
         this.width = this.data.length;
         this.height = this.data[0].length;
         this.size = this.width * this.height;
-        this.size = this.width * this.height;
     }
 
     setup() {

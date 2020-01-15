@@ -22,5 +22,3 @@ class Cell {
         botLeft: ["topLeft", "botRight"]
     }
 }
-
-test

@@ -52,10 +52,11 @@ class Player {
         this.vel.limit(this.maxVel);
         this.collide();
         this.pos.add(this.vel);
+        console.log(this.pos);
     }
 
     collide() {
-        let v = this.pos.copy();
+        /*let v = this.pos.copy();
         v.add(this.vel.x + this.width/2, 0);
         if (!Level.getCellAtPos(v).traversable) this.vel.x = 0;
 
@@ -69,7 +70,33 @@ class Player {
 
         v = this.pos.copy();
         v.add(0, this.vel.y - this.height/2);
-        if (!Level.getCellAtPos(v).traversable) this.vel.y = 0;
+        if (!Level.getCellAtPos(v).traversable) this.vel.y = 0;*/
+        let cellX = floor(this.pos.x / level.cellSize),
+            cellY = floor(this.pos.y / level.cellSize);
+
+        //calc closest corner
+        let corners = Cell.getCorners(cellX, cellY);
+        let closeCorner, minDist = Infinity;
+        for (let corner of Object.keys(Cell.corners)) {
+            let thisDist = dist(corners[corner].x, corners[corner].y, this.pos.x, this.pos.y);
+            if (thisDist < minDist) {
+                closeCorner = corner;
+                minDist = thisDist;
+            }
+        }
+
+        //calc line 1
+        let m1 = this.getGradient(corners[closeCorner].y, corners[Cell.corners[closeCorner][0]].y,
+                                  corners[closeCorner].x, corners[Cell.corners[closeCorner][0]].x);
+        
+        
+    }
+
+    getGradient(y1, y2, x1, x2) {
+        let dx = x1 - x2,
+            dy = y1 - y2;
+        
+        if (dx === 0) {}
     }
 
     keyPress() {
@@ -85,5 +112,3 @@ class Player {
         this.render();
     }
 }
-
-//TODO: circular square collision
